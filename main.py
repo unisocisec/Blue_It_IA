@@ -4,14 +4,16 @@ from MainGetMongoDatabase import MainGetMongoDatabase
 app = Flask(__name__)
 
 
-@app.route('/neighborsByPacient', methods=['POST'])
+@app.route('/neighborsByPacient', methods=['GET'])
 def neighborsByPacient():
-    request_data = request.get_json()
-    pacientTestId = request_data["pacientId"]
+    if(request.args and request.args.get('pacientId')):
+        pacientTestId = request.args.get('pacientId')
+    else:
+        pacientTestId = ""
     mainGetMongoDatabase = MainGetMongoDatabase()
-    neighborsPacientIds = mainGetMongoDatabase.get_neighbors_ids(pacientTestId)
+    hash_results = mainGetMongoDatabase.get_neighbors_ids(pacientTestId)
 
-    return (jsonify({"neighborsPacientIds":neighborsPacientIds}))
+    return (jsonify(hash_results))
 
 if __name__ == '__main__':
     app.run()

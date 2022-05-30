@@ -58,20 +58,20 @@ class MainGetMongoDatabase:
 
 		# Get Data Pacient Train
 		connectionDatasetResults = ConnectionDatasetResults()
-		dataset = connectionDatasetResults.get_datasetResults(pacientTestId)
-		datasetTransformed = self.transform_data(dataset)
-		
-		connectionDatasetResults.pacientTestInformations(pacientTestId)
-		# Teste Row for get Neighbors
 
-		rowTest = connectionDatasetResults.pacientTestInformations(pacientTestId)
+		if(pacientTestId):
+			dataset = connectionDatasetResults.get_datasetResults(pacientTestId)
+			datasetTransformed = self.transform_data(dataset)
 
-		rowTestTransformed = self.transform_data([rowTest])
-		pacientTestId = rowTest["pacientId"]
-		# Get Neighbors
-		neighbors = self.get_neighbors_index(datasetTransformed, rowTestTransformed[0], num_neighbors)
-		neighborsPacientIds = [neighbor["pacientId"] for neighbor in neighbors]
-		hash_result = { "pacientTestId": pacientTestId, "neighborsPacientIds": neighborsPacientIds }
+			# Teste Row for get Neighbors
+			rowTest = connectionDatasetResults.pacientTestInformations(pacientTestId)
+			rowTestTransformed = self.transform_data([rowTest])
+			pacientTestId = rowTest["pacientId"]
 
-		# print("pacientTestId:", hash_result["pacientTestId"], "neighborsPacientIds:", hash_result["neighborsPacientIds"])
-		return hash_result["neighborsPacientIds"]
+			# Get Neighbors
+			neighbors = self.get_neighbors_index(datasetTransformed, rowTestTransformed[0], num_neighbors)
+			neighborsPacientIds = [neighbor["pacientId"] for neighbor in neighbors]
+		else:
+			pacientTestId = None
+			neighborsPacientIds = []
+		return { "pacientTestId": pacientTestId, "neighborsPacientIds": neighborsPacientIds }

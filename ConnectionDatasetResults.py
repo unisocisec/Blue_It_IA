@@ -16,7 +16,10 @@ class ConnectionDatasetResults:
         
     def get_all_pacients(self, pacientTestId):
         mycol = self.mydb["pacients"]
-        pacients = mycol.find({'_id': {"$ne" : ObjectId(pacientTestId)}})
+        if(pacientTestId):
+            pacients = mycol.find({'_id': {"$ne" : ObjectId(pacientTestId)}})
+        else:
+            pacients = []
         return pacients
 
     def get_plataform_overviews_for_pacient(self, pacientId):
@@ -32,29 +35,31 @@ class ConnectionDatasetResults:
     
     def pacientTestInformations(self, pacientTestId):
         mycol = self.mydb["pacients"]
-        pacients = mycol.find({"_id": ObjectId(pacientTestId)})
-        pacient = [ pacient for pacient in pacients ][0] # TODO MUDAR PARA SEGURO DEPOIS
-        print("pacient", pacient)
-        year = datetime.date.today().year - pacient.get('birthday').year
-        plataformoverviews = self.get_plataform_overviews_for_pacient(str(pacient.get('_id')))
-        pacientResult = {
-            "pacientId": pacientTestId,
-            "year": year,
-            "height": pacient.get('height'),
-            "weight": pacient.get('weight'),
-            "sex": pacient.get('sex'),
-            "condition": pacient.get('condition'),
-            "insPeakFlow": pacient.get('capacitiesPitaco').get("insPeakFlow"),
-            "insFlowDuration": pacient.get('capacitiesPitaco').get("insFlowDuration"),
-            "expPeakFlow": pacient.get('capacitiesPitaco').get("expPeakFlow"),
-            "expFlowDuration": pacient.get('capacitiesPitaco').get("expFlowDuration"),
-            "respiratoryRate": pacient.get('capacitiesPitaco').get("respiratoryRate"),
-            "duration_game": plataformoverviews.get('duration'),
-            "result": plataformoverviews.get('result'),
-            "stageId": plataformoverviews.get('stageId'),
-            "phase": plataformoverviews.get('phase'),
-            "level":plataformoverviews.get('level')
-        }
+        if(pacientTestId):
+            pacients = mycol.find({"_id": ObjectId(pacientTestId)})
+            pacient = [ pacient for pacient in pacients ][0] # TODO MUDAR PARA SEGURO DEPOIS
+            year = datetime.date.today().year - pacient.get('birthday').year
+            plataformoverviews = self.get_plataform_overviews_for_pacient(str(pacient.get('_id')))
+            pacientResult = {
+                "pacientId": pacientTestId,
+                "year": year,
+                "height": pacient.get('height'),
+                "weight": pacient.get('weight'),
+                "sex": pacient.get('sex'),
+                "condition": pacient.get('condition'),
+                "insPeakFlow": pacient.get('capacitiesPitaco').get("insPeakFlow"),
+                "insFlowDuration": pacient.get('capacitiesPitaco').get("insFlowDuration"),
+                "expPeakFlow": pacient.get('capacitiesPitaco').get("expPeakFlow"),
+                "expFlowDuration": pacient.get('capacitiesPitaco').get("expFlowDuration"),
+                "respiratoryRate": pacient.get('capacitiesPitaco').get("respiratoryRate"),
+                "duration_game": plataformoverviews.get('duration'),
+                "result": plataformoverviews.get('result'),
+                "stageId": plataformoverviews.get('stageId'),
+                "phase": plataformoverviews.get('phase'),
+                "level":plataformoverviews.get('level')
+            }
+        else:
+            pacientResult = {}
         return pacientResult
 
     def get_datasetResults(self, pacientTestId):
