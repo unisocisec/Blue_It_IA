@@ -34,7 +34,7 @@ class MainGetMongoDatabase:
 
 	def get_values_list(self, row):
 		arrayValues = list(row.values())
-		arrayValues.pop(0)
+		del arrayValues[0:2]
 		return arrayValues
 
 	# Locate the most similar neighbors
@@ -70,8 +70,8 @@ class MainGetMongoDatabase:
 
 			# Get Neighbors
 			neighbors = self.get_neighbors_index(datasetTransformed, rowTestTransformed[0], num_neighbors)
-			neighborsPacientIds = [neighbor["pacientId"] for neighbor in neighbors]
+			neighborsPacientReturn = [ { "pacientId": neighbor["pacientId"], "pacientName": neighbor["pacientName"]  } for neighbor in neighbors]
 		else:
 			pacientTestId = None
-			neighborsPacientIds = []
-		return { "pacientTestId": pacientTestId, "neighborsPacientIds": neighborsPacientIds }
+			neighborsPacientReturn = []
+		return { "pacientTestId": pacientTestId, "neighborsPacientReturn": neighborsPacientReturn }

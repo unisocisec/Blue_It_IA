@@ -37,11 +37,12 @@ class ConnectionDatasetResults:
         mycol = self.mydb["pacients"]
         if(pacientTestId):
             pacients = mycol.find({"_id": ObjectId(pacientTestId)})
-            pacient = [ pacient for pacient in pacients ][0] # TODO MUDAR PARA SEGURO DEPOIS
+            pacient = [ pacient for pacient in pacients ][0]
             year = datetime.date.today().year - pacient.get('birthday').year
             plataformoverviews = self.get_plataform_overviews_for_pacient(str(pacient.get('_id')))
             pacientResult = {
                 "pacientId": pacientTestId,
+                "pacientName": pacient.get('name'),
                 "year": year,
                 "height": pacient.get('height'),
                 "weight": pacient.get('weight'),
@@ -69,6 +70,7 @@ class ConnectionDatasetResults:
         for pacient in pacients:
             datasetResult = {
                 "pacientId": None,
+                "pacientName": None,
                 "year": None,
                 "height": None,
                 "weight": None,
@@ -86,6 +88,7 @@ class ConnectionDatasetResults:
                 "level": None
             }
             datasetResult["pacientId"] = str(pacient.get('_id'))
+            datasetResult["pacientName"] = str(pacient.get('name'))
             year = datetime.date.today().year - pacient.get('birthday').year
             datasetResult["year"] = year
             datasetResult["height"] = pacient.get('height')
