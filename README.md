@@ -33,7 +33,11 @@ pip install flask
 ```
 pip install python-dotenv
 ```
-6. Rode o Script de Start do Python:
+6. Crie um arquivo chamado .env com a seguintes informações:
+```
+MongoDbAtlas="mongodb://usuarioiblueit:senhaiblueit@iblueit-mongo/?retryWrites=true&w=majority Alterar Usuario e senha"
+```
+7. Rode o Script de Start do Python:
 ```
 python3 main.py
 ```
