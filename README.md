@@ -42,3 +42,4 @@ python3 main.py
 - Aplicação (BackEnd) [Blue_It_BackEnd](https://github.com/unisocisec/Blue_It_BackEnd)
 - Interface gráfica (FrontEnd) [blue_It_front](https://github.com/unisocisec/blue_It_front)
 - Inteligência artificial [Blue_It_IA](https://github.com/unisocisec/Blue_It_IA)
+- Repositório do Jogo [Blue_It_Game](https://github.com/unisocisec/Blue_It_Game)
